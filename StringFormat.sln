@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringFormat", "StringFormat\StringFormat.csproj", "{2FCCB913-E294-427A-BABF-9E458129A7A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringFormat.Test", "StringFormat.Text\StringFormat.Test.csproj", "{1E744933-067B-468C-A0EF-F93A9A614A8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringFormat.Test", "StringFormat.Test\StringFormat.Test.csproj", "{1E744933-067B-468C-A0EF-F93A9A614A8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

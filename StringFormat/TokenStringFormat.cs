@@ -7,33 +7,39 @@ using System.Text.RegularExpressions;
 
 namespace StringFormat
 {
-    public class TokenStringFormat
+    public static class TokenStringFormat
     {
-        private const string TokenizeRegex = @"\{(?!\{)\w.*?\}";
+        /*
+         * Explanation:
+         * (?<=(^|[^\{]|(\{\{)+)) -- This is a lookback, it says that when the next character in the regex is matched, it should
+         *                          only be considered a match if it is the start of the line, immediately preceded with a non '{' character, or an even number of '{' characters
+         *                          IE: '{one}' and '{{{one}' are both valid (the first two '{' in the second example will result in a single '{'
+         *                              but '{{one}' is not a valid because String.Format will combine the first two '{' into a single one
+         * \{                   --Find a '{' character
+         * (?!\{)               --This is a negative look ahead, it says that after you find a the preceding character,
+         *                          look to make sure it isn't immediately proceeded with another '{'
+         *\w                    --The very next character must be a word character (alpha numeric)
+         *.*                    --Continue reading the string for any non-linebreaking character
+         *?\}                   --Stop reading at the very first '}' character (don't be greedy)
+        */
+        private const string TokenizeRegex = @"(?<=(^|[^\{]|(\{\{)+))\{(?!\{)\w.*?\}";
 
-        private TokenStringFormat(){ }
-        private static TokenStringFormat singleton;
-        public static TokenStringFormat Singleton
-        {
-            get { return singleton = singleton ?? new TokenStringFormat(); }
-        }
-
-        public string Format(string format, object values)
+        public static string Format(string format, object values)
         {
             return Format(null, format, values);
         }
 
-        public string Format(IFormatProvider provider, string format, object values)
+        public static string Format(IFormatProvider provider, string format, object values)
         {
             return Format(provider, format, AnonymousObjectToDictionary(values));
         }
 
-        public string Format(string format, IDictionary<string, object> values)
+        public static string Format(string format, IDictionary<string, object> values)
         {
             return Format(null, format, values);
         }
 
-        public string Format(IFormatProvider provider, string format, IDictionary<string, object> values)
+        public static string Format(IFormatProvider provider, string format, IDictionary<string, object> values)
         {
             if (values == null)
             {
@@ -47,14 +53,14 @@ namespace StringFormat
             return String.Format(provider, tokenizedString, tokens.Select(s => values[s]).ToArray());
         }
 
-        public string TokenizeString(string format)
+        public static string TokenizeString(string format)
         {
             IEnumerable<string> junk;
 
             return TokenizeString(format, out junk);
         }
 
-        public string TokenizeString(string format, out IEnumerable<string> tokens)
+        public static string TokenizeString(string format, out IEnumerable<string> tokens)
         {
             if (format == null)
             {
@@ -64,29 +70,26 @@ namespace StringFormat
             //performance: minimize the number of times the builder will have to "grow", while keeping the initial size reasonable
             var sb = new StringBuilder(format.Length);
 
-            var possibleMatch = Regex.Match(format, TokenizeRegex, RegexOptions.Compiled);
+            var match = Regex.Match(format, TokenizeRegex, RegexOptions.Compiled);
 
             var tokenList = new List<string>();
 
             var currentIndex = 0;
-            while (possibleMatch.Success)
+            while (match.Success)
             {
-                if (IsToken(format, possibleMatch))
-                {
-                    sb.Append(format.Substring(currentIndex, possibleMatch.Index - currentIndex));
+                sb.Append(format.Substring(currentIndex, match.Index - currentIndex));
 
-                    var fullToken = possibleMatch.ToString();
+                var fullToken = match.ToString();
 
-                    var name = ParseName(fullToken);
+                var name = ParseName(fullToken);
 
-                    var index = IndexOfName(tokenList, name);
+                var index = IndexOfName(tokenList, name);
 
-                    sb.Append(BuildNewToken(fullToken, name, index));
+                sb.Append(BuildNewToken(fullToken, name, index));
 
-                    currentIndex = possibleMatch.Index + possibleMatch.Length;
-                }
+                currentIndex = match.Index + match.Length;
 
-                possibleMatch = possibleMatch.NextMatch();
+                match = match.NextMatch();
             }
 
             tokens = tokenList;
@@ -97,7 +100,7 @@ namespace StringFormat
 
         #region Private Methods
 
-        private string ParseName(string fullToken)
+        private static string ParseName(string fullToken)
         {
             var token = fullToken.Substring(1, fullToken.Length - 2);
 
@@ -108,7 +111,7 @@ namespace StringFormat
             return token.TrimEnd();
         }
 
-        private int IndexOfName(IList<string> names, string name)
+        private static int IndexOfName(IList<string> names, string name)
         {
             var index = names.IndexOf(name);
 
@@ -121,30 +124,14 @@ namespace StringFormat
             return index;
         }
 
-        private string BuildNewToken(string fullToken, string name, int index)
+        private static string BuildNewToken(string fullToken, string name, int index)
         {
             fullToken = fullToken.Remove(1, name.Length);
 
             return fullToken.Insert(1, index.ToString());
         }
 
-        private bool IsToken(string input, Match possibleMatch)
-        {
-            var consecutiveStartingBraces = 1;
-            var currentIndex = possibleMatch.Index;
-            while (currentIndex > 0)
-            {
-                currentIndex--;
-                if (input[currentIndex] == '{')
-                    consecutiveStartingBraces++;
-                else
-                    break;
-            }
-
-            return consecutiveStartingBraces % 2 == 1;
-        }
-
-        private IDictionary<string,object> AnonymousObjectToDictionary(object values)
+        private static IDictionary<string, object> AnonymousObjectToDictionary(object values)
         {
             var valueDictionary = new Dictionary<string, object>();
             if (values != null)
