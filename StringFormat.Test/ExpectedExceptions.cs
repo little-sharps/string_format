@@ -23,6 +23,10 @@ namespace StringFormat.Test
             Executing.This(
                 () => TokenStringFormat.Format("I should have escaped this curly brace: {", new {Foo = "bar"}))
                 .Should().Throw<FormatException>();
+
+            Executing.This(
+                () => TokenStringFormat.Format("A token cannot span {\r\nname} multiple lines.", new { Foo = "bar" }))
+                .Should().Throw<FormatException>();
         }
 
         [Test]
@@ -39,19 +43,5 @@ namespace StringFormat.Test
             Executing.This(() => TokenStringFormat.Format("abc", dictionary))
                 .Should("Dictionary parameter").Throw<ArgumentNullException>();
         }
-
-        //[Test]
-        //public void MyTest()
-        //{
-        //    const string pattern = @"\{(?<!(\{\{)*)";
-
-        //    var test0 = "hello { world";
-        //    var test = "hello {{ world";
-        //    var test2 = "hello {{{ world";
-        //    var test3 = "hello {{{{ world";
-        //    var test4 = "hello {{{{{ world";
-
-        //    Regex.IsMatch(test, pattern);
-        //}
     }
 }

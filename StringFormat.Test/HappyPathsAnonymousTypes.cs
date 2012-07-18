@@ -7,7 +7,7 @@ namespace StringFormat.Test
     [TestFixture]
     public class HappyPathsAnonymousTypes
     {
-        private CultureInfo english = CultureInfo.GetCultureInfo("en-US");
+        private readonly CultureInfo english = CultureInfo.GetCultureInfo("en-US");
 
         [Test] 
         public void SimpleTest()
@@ -26,6 +26,16 @@ namespace StringFormat.Test
             const string expected = "Your total of 4,234 items comes to a total of $12,435.89";
 
             TokenStringFormat.Format(english, test, new {quantity = 4234, total = 12435.89})
+                .ShouldEqualWithDiff(expected);
+        }
+
+        [Test]
+        public void MultilineTest()
+        {
+            const string test = "This is a {amount}\r\nline test. It would be nice if {library} worked for multiple lines.";
+            const string expected = "This is a 2\r\nline test. It would be nice if StringFormat worked for multiple lines.";
+
+            TokenStringFormat.Format(test, new { amount = 2, library = "StringFormat" })
                 .ShouldEqualWithDiff(expected);
         }
 

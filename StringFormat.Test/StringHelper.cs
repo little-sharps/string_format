@@ -30,9 +30,9 @@ namespace StringFormat.Test
 
             output.WriteLine("  Idx Expected  Actual");
             output.WriteLine("-------------------------");
-            int maxLen = Math.Max(actualValue.Length, expectedValue.Length);
-            int minLen = Math.Min(actualValue.Length, expectedValue.Length);
-            for (int i = 0; i < maxLen; i++)
+            var maxLen = Math.Max(actualValue.Length, expectedValue.Length);
+            var minLen = Math.Min(actualValue.Length, expectedValue.Length);
+            for (var i = 0; i < maxLen; i++)
             {
                 if (diffStyle != DiffStyle.Minimal || i >= minLen || actualValue[i] != expectedValue[i])
                 {
