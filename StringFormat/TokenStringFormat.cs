@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace StringFormat
 {
+    /// <summary>
+    /// The primary class for accessing the functionality of the StringFormat library.
+    /// </summary>
     public static class TokenStringFormat
     {
         /*
@@ -24,21 +27,47 @@ namespace StringFormat
         */
         private const string TokenizeRegex = @"(?<=(^|[^\{]|(\{\{)+))\{(?!\{)\w.*?\}";
 
+        /// <summary>
+        /// Formats the string using the placeholder for the property names.
+        /// </summary>
+        /// <param name="format">The string to format.</param>
+        /// <param name="values">The object to pull the values from. Usually an anonymous type.</param>
+        /// <returns>The formatted string.</returns>
         public static string Format(string format, object values)
         {
             return Format(null, format, values);
         }
 
+        /// <summary>
+        /// Formats the string using the placeholder for the property names.
+        /// </summary>
+        /// <param name="provider">The provider to use for formatting dates and numeric values.</param>
+        /// <param name="format">The string to format.</param>
+        /// <param name="values">The object to pull the values from. Usually an anonymous type.</param>
+        /// <returns>The formatted string.</returns>
         public static string Format(IFormatProvider provider, string format, object values)
         {
             return Format(provider, format, AnonymousObjectToDictionary(values));
         }
 
+        /// <summary>
+        /// Formats the string using the placeholder for the property names.
+        /// </summary>
+        /// <param name="format">The string to format.</param>
+        /// <param name="values">The dictionary to pull the values from.</param>
+        /// <returns>The formatted string.</returns>
         public static string Format(string format, IDictionary<string, object> values)
         {
             return Format(null, format, values);
         }
 
+        /// <summary>
+        /// Formats the string using the placeholder for the property names.
+        /// </summary>
+        /// <param name="provider">The provider to use for formatting dates and numeric values.</param>
+        /// <param name="format">The string to format.</param>
+        /// <param name="values">The dictionary to pull the values from.</param>
+        /// <returns>The formatted string.</returns>
         public static string Format(IFormatProvider provider, string format, IDictionary<string, object> values)
         {
             if (values == null)
@@ -53,6 +82,11 @@ namespace StringFormat
             return String.Format(provider, tokenizedString, tokens.Select(s => values[s]).ToArray());
         }
 
+        /// <summary>
+        /// Returns the format string with the tokens replaced as ordinals. Exposed for developer benefit. Most likely used only in debugging.
+        /// </summary>
+        /// <param name="format">The string to format.</param>
+        /// <returns>A string where the tokens are replaced with ordinal values.</returns>
         public static string TokenizeString(string format)
         {
             IEnumerable<string> junk;
@@ -60,6 +94,12 @@ namespace StringFormat
             return TokenizeString(format, out junk);
         }
 
+        /// <summary>
+        /// Returns the format string with the tokens replaced as ordinals. Exposed for developer benefit. Most likely used only in debugging.
+        /// </summary>
+        /// <param name="format">The string to format.</param>
+        /// <param name="tokens">The tokens that were extracted from the format string.</param>
+        /// <returns>A string where the tokens are replaced with ordinal values.</returns>
         public static string TokenizeString(string format, out IEnumerable<string> tokens)
         {
             if (format == null)

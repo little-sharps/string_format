@@ -12,7 +12,7 @@
 	<tags>littlebits string format</tags>
   </metadata>
   <files>    
-	<file src="..\StringFormat\bin\Release\*.dll" />
-	<file src="..\StringFormat\bin\Release\*.xml" />
+	<file src="..\StringFormat\bin\Release\*.dll" target="lib" />
+	<file src="..\StringFormat\bin\Release\*.xml" target="lib" />
   </files>
 </package>
