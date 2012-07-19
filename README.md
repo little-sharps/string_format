@@ -9,4 +9,4 @@ The output would be:
 
 	"John was born on Sunday, May 16 2012. John was 9 lbs. and 19 inches long."
 	
-The package will be available on NuGet when it is ready.
+The package is now available on [NuGet.org](http://nuget.org/packages/StringFormat)
