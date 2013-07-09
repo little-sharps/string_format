@@ -7,6 +7,6 @@ This library extends the functionality of String.Format (and StringBuilder.Appen
 	
 The output would be:
 
-	"John was born on Sunday, May 16 2012. John was 9 lbs. and 19 inches long."
+	"John was born on Sunday, May 16 2012. John was 11 lbs. and 19 inches long."
 	
 The package is now available on [NuGet.org](http://nuget.org/packages/StringFormat)
