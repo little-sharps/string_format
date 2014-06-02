@@ -1,5 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/80cp4snyr72k93jr)](https://ci.appveyor.com/project/cbrianball/string-format)
-StringFormat
+StringFormat [![Build status](https://ci.appveyor.com/api/projects/status/80cp4snyr72k93jr)](https://ci.appveyor.com/project/cbrianball/string-format)
 =============
 
 This library extends the functionality of String.Format (and StringBuilder.AppendFormat). It allows you to use named variables instead of ordinal place holders.
