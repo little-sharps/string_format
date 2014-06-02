@@ -1,3 +1,4 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/80cp4snyr72k93jr)](https://ci.appveyor.com/project/cbrianball/string-format)
 StringFormat
 =============
 
