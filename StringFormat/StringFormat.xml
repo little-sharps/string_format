@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StringFormat</name>
+    </assembly>
+    <members>
+        <member name="T:StringFormat.TokenStringFormat">
+            <summary>
+            The primary class for accessing the functionality of the StringFormat library.
+            </summary>
+        </member>
+        <member name="M:StringFormat.TokenStringFormat.Format(System.String,System.Object)">
+            <summary>
+            Formats the string using the placeholder for the property names.
+            </summary>
+            <param name="format">The string to format.</param>
+            <param name="values">The object to pull the values from. Usually an anonymous type.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:StringFormat.TokenStringFormat.Format(System.IFormatProvider,System.String,System.Object)">
+            <summary>
+            Formats the string using the placeholder for the property names.
+            </summary>
+            <param name="provider">The provider to use for formatting dates and numeric values.</param>
+            <param name="format">The string to format.</param>
+            <param name="values">The object to pull the values from. Usually an anonymous type.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:StringFormat.TokenStringFormat.Format(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Formats the string using the placeholder for the property names.
+            </summary>
+            <param name="format">The string to format.</param>
+            <param name="values">The dictionary to pull the values from.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:StringFormat.TokenStringFormat.Format(System.IFormatProvider,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Formats the string using the placeholder for the property names.
+            </summary>
+            <param name="provider">The provider to use for formatting dates and numeric values.</param>
+            <param name="format">The string to format.</param>
+            <param name="values">The dictionary to pull the values from.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:StringFormat.TokenStringFormat.TokenizeString(System.String)">
+            <summary>
+            Returns the format string with the tokens replaced as ordinals. Exposed for developer benefit. Most likely used only in debugging.
+            </summary>
+            <param name="format">The string to format.</param>
+            <returns>A string where the tokens are replaced with ordinal values.</returns>
+        </member>
+        <member name="M:StringFormat.TokenStringFormat.TokenizeString(System.String,System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Returns the format string with the tokens replaced as ordinals. Exposed for developer benefit. Most likely used only in debugging.
+            </summary>
+            <param name="format">The string to format.</param>
+            <param name="tokens">The tokens that were extracted from the format string.</param>
+            <returns>A string where the tokens are replaced with ordinal values.</returns>
+        </member>
+    </members>
+</doc>

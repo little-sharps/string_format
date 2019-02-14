@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -176,14 +176,21 @@ namespace StringFormat
             var valueDictionary = new Dictionary<string, object>();
             if (values != null)
             {
-                foreach (PropertyDescriptor propertyDescriptor in TypeDescriptor.GetProperties(values))
+                var properties = values.GetType()
+#if NETSTANDARD_1_3
+                    .GetTypeInfo().DeclaredProperties;
+#else
+                    .GetProperties();
+#endif
+
+                foreach (var property in properties)
                 {
-                    valueDictionary.Add(propertyDescriptor.Name, propertyDescriptor.GetValue(values));
+                    valueDictionary.Add(property.Name, property.GetValue(values, null));
                 }
             }
             return valueDictionary;
         }
 
-        #endregion
+#endregion
     }
 }

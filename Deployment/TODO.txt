@@ -1,4 +1,0 @@
-Generate/sign assemblies
-Test Package
-Update project site
-Test Icons
